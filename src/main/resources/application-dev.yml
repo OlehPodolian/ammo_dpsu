@@ -1,0 +1,24 @@
+server:
+  port: 80
+
+spring:
+  profiles:
+    include: postgres
+  application:
+    name: Ammunition Helper
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+      url: jdbc:postgresql://localhost:5432/ammo_db
+      username: root
+      password: 1515
+
+flyway:
+  locations: db/migration/postgres
+  validate-on-migrate: true
+  out-of-order: true
+  baseline-on-migrate: true
+
+
+
