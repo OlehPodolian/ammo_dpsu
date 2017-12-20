@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import oleg.podolyan.ammodpsu.domain.uniform.Ration;
 import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -24,6 +25,8 @@ import javax.validation.constraints.NotNull;
 public class Soldier extends AbstractAuditor {
 
     @Id
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @Column(name = "soldier_id", nullable = false)
     private Long id;
 

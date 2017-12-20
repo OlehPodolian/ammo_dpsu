@@ -1,30 +1,20 @@
 package oleg.podolyan.ammodpsu.domain.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import org.hibernate.annotations.Loader;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Parameter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.CascadeType;
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * CREATE TABLE IF NOT EXISTS users (
- *  user_id BIGINT AUTO_INCREMENT NOT NULL,
- *  username VARCHAR(50) NOT NULL,
- *  password VARCHAR(255) NOT NULL,
- *  email VARCHAR(50),
- *  deleted BOOLEAN DEFAULT FALSE,
- *  CONSTRAINT users_username_uq UNIQUE (username),
- *  CONSTRAINT users_id_pk PRIMARY KEY (user_id)
- * );
- */
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE user_id = ?")
@@ -34,7 +24,8 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @Column(name = "user_id", nullable = false)
     private Long id;
 

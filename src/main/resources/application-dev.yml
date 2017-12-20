@@ -6,13 +6,10 @@ spring:
     include: postgres
   application:
     name: Ammunition Helper
-  jpa:
-    hibernate:
-      ddl-auto: create
-  datasource:
-      url: jdbc:postgresql://localhost:5432/ammo_db
-      username: root
-      password: 1515
+#  datasource:
+#      url: jdbc:postgresql://localhost:5432/ammo_db
+#      username: root
+#      password: 1515
 
 flyway:
   locations: db/migration/postgres

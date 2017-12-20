@@ -2,20 +2,13 @@ package oleg.podolyan.ammodpsu.domain.security;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * CREATE TABLE IF NOT EXISTS roles (
- *  role_id BIGSERIAL NOT NULL,
- *  name VARCHAR(50) NOT NULL,
- *  CONSTRAINT roles_id_pk PRIMARY KEY (role_id),
- *  CONSTRAINT roles_name_uq UNIQUE (name)
- * );
- */
 @Entity
 @Table(name = "roles", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 @Data
@@ -23,7 +16,8 @@ import java.util.Set;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @Column(name = "role_id", nullable = false)
     private Long id;
 

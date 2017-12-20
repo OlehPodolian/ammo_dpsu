@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import oleg.podolyan.ammodpsu.domain.AbstractAuditor;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.SQLDelete;
@@ -21,7 +22,8 @@ import java.time.LocalDate;
 public class UniformItem extends AbstractAuditor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @Column(name = "item_id", nullable = false, updatable = false)
     private Long id;
 
@@ -31,7 +33,6 @@ public class UniformItem extends AbstractAuditor {
     private RationItem rationItem;
 
     @NotNull
-    @Min(2)
     @JsonProperty
     @Column(name = "name", unique = true, nullable = false)
     private String name;

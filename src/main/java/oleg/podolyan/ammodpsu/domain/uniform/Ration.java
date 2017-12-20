@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import oleg.podolyan.ammodpsu.domain.Soldier;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -20,14 +21,14 @@ import java.util.Set;
 public class Ration {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @Column(name = "ration_id", nullable = false)
     @JsonProperty
     private Long id;
 
     @NaturalId
     @NotNull
-    @Min(2)
     @Column(name = "name", nullable = false)
     @JsonProperty
     private String name;

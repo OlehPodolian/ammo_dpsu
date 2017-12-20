@@ -23,7 +23,6 @@ public class Rank {
 
     @Id
     @NotNull
-    @Min(2)
     @Column(name = "_value", length = 50)
     @JsonProperty
     private String value;

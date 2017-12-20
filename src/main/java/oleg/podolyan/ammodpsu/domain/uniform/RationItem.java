@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NaturalId;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Parameter;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,7 +27,8 @@ public class RationItem {
     private Ration ration;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "sequence", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "sequence")
     @JsonProperty
     @Column(name = "ration_item_id", nullable = false)
     private Long id;
@@ -56,7 +57,7 @@ public class RationItem {
     @JsonProperty
     private boolean inactive;
 
-    @OneToMany(mappedBy = "ration_item", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
-    @JsonIgnore
-    private Set<UniformItemStored> storedUniformItems = new HashSet<>();
+//    @OneToMany(mappedBy = "ration_item", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
+//    @JsonIgnore
+//    private Set<UniformItem> uniformItems = new HashSet<>();
 }

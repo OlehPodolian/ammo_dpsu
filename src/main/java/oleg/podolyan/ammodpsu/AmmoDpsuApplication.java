@@ -32,6 +32,7 @@ public class AmmoDpsuApplication {
 		return args -> {
 			saveRoles();
 			ClothesType clothesShirt = new ClothesType("SHIRT");
+			System.out.println("Clothes type: " + clothesShirt.getValue());
 			clothesShirt.getSizes().addAll(Arrays.asList("39", "40", "41", "42"));
 			clothesTypeRepository.save(clothesShirt);
 

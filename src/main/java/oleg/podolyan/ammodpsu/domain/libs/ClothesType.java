@@ -28,8 +28,7 @@ public class ClothesType implements Serializable {
 
     @Id
     @NotNull
-    @Min(2)
-    @Column(name = "_value", length = 100, updatable = false, insertable = false, unique = true)
+    @Column(name = "_value", length = 50, unique = true)
     private String value;
 
     public ClothesType(String value) {
@@ -37,7 +36,10 @@ public class ClothesType implements Serializable {
     }
 
     @ElementCollection
-    @CollectionTable(name = "clothes_type_sizes",
-            joinColumns = @JoinColumn(name = "_value"))
+    @CollectionTable(
+            name = "clothes_types_sizes",
+            joinColumns = @JoinColumn(name = "_value", referencedColumnName = "_value")
+    )
+    @Column(name="size")
     private Set<String> sizes = new TreeSet<>();
 }
