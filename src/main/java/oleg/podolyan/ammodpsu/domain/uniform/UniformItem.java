@@ -14,6 +14,7 @@ import org.hibernate.annotations.SQLDelete;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 @MappedSuperclass
@@ -35,6 +36,7 @@ public class UniformItem extends AbstractAuditor {
     @NotNull
     @JsonProperty
     @Column(name = "name", unique = true, nullable = false)
+    @Size(min = 2, max = 50)
     private String name;
 
     @Column(name = "price")

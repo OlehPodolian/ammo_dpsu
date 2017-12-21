@@ -13,12 +13,11 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "soldiers", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @SQLDelete(sql = "UPDATE soldiers SET deleted = true WHERE soldier_id = ?")
-@Loader(namedQuery = "findALL")
-@NamedQuery(name = "findAll", query = "SELECT s FROM Soldier s WHERE deleted = false")
 @Where(clause = "deleted = false")
 @Data
 @NoArgsConstructor
@@ -32,6 +31,7 @@ public class Soldier extends AbstractAuditor {
 
     @NaturalId
     @Column(name = "username")
+    @Size(min = 2, max = 50)
     private String username;
 
     @NotNull

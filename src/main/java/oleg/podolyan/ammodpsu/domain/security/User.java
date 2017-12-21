@@ -1,16 +1,15 @@
 package oleg.podolyan.ammodpsu.domain.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Loader;
+import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,8 +17,6 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE user_id = ?")
-@Loader(namedQuery = "findByUsername")
-@NamedQuery(name = "findByUsername", query = "SELECT u FROM User u WHERE u.username = ?1 AND u.deleted = false")
 @Where(clause = "deleted = false")
 public class User implements UserDetails {
 
@@ -31,6 +28,7 @@ public class User implements UserDetails {
 
     @NaturalId
     @Column(name = "username", length = 50, nullable = false)
+    @Size(min = 2, max = 50)
     private String username;
 
     @Column(name = "password")

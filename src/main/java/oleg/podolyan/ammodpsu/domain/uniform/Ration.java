@@ -11,6 +11,7 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class Ration {
     @NaturalId
     @NotNull
     @Column(name = "name", nullable = false)
+    @Size(min = 2, max = 50)
     @JsonProperty
     private String name;
 

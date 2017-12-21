@@ -10,14 +10,6 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-/**
- *
- * CREATE TABLE IF NOT EXISTS clothes_types (
- *  _value VARCHAR(100) NOT NULL,
- *  CONSTRAINT clothes_types_value_pk PRIMARY KEY (_value)
- * );
- *
- */
 @Entity
 @Table(name = "clothes_types", uniqueConstraints = {@UniqueConstraint(columnNames = {"_value"})})
 @Data
