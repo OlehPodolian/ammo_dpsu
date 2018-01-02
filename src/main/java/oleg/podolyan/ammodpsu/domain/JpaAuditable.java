@@ -2,8 +2,6 @@ package oleg.podolyan.ammodpsu.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.envers.Audited;
@@ -17,7 +15,6 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
@@ -32,6 +29,7 @@ public abstract class JpaAuditable implements Serializable {
     private String createdBy;
 
     @CreatedDate
+//    @Generated(GenerationTime.INSERT)
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     @JsonProperty(value = "createdDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")
@@ -43,6 +41,7 @@ public abstract class JpaAuditable implements Serializable {
     private String lastModifiedBy;
 
     @LastModifiedDate
+//    @Generated(GenerationTime.ALWAYS)
     @Column(name = "modified_at", columnDefinition = "TIMESTAMP", nullable = false)
     @JsonProperty(value = "lastModifiedDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")

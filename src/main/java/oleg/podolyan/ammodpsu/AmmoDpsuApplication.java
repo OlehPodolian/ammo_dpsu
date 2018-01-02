@@ -6,22 +6,22 @@ import oleg.podolyan.ammodpsu.domain.user.security.RoleType;
 import oleg.podolyan.ammodpsu.domain.user.security.UserRole;
 import oleg.podolyan.ammodpsu.service.RoleService;
 import oleg.podolyan.ammodpsu.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class AmmoDpsuApplication {
 
-	private final RoleService roleService;
-
-	private final UserService userService;
-
-	public AmmoDpsuApplication(RoleService roleService, UserService userService) {
-		this.roleService = roleService;
-		this.userService = userService;
-	}
+//	@Autowired
+//	private RoleService roleService;
+//
+//	@Autowired
+//	private UserService userService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(AmmoDpsuApplication.class, args);
@@ -30,13 +30,11 @@ public class AmmoDpsuApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(){
 		return args -> {
-			saveRoles();
 
-			userService.save(getUser("oleg"));
 		};
 	}
 
-	private void saveRoles(){
+	private void saveRoles(RoleService roleService){
 		if(!(roleService.exists(RoleType.ADMIN.getValue()))){
 			roleService.save(new Role(RoleType.ADMIN.getValue()));
 		}
@@ -58,7 +56,7 @@ public class AmmoDpsuApplication {
 		user.setPhoneNumber("0672989761");
 		user.setPosition("I don't know who I am");
 
-		user.getUserRoles().add(new UserRole(user, roleService.find(RoleType.ADMIN.getValue())));
+//		user.getUserRoles().add(new UserRole(user, roleService.find(RoleType.ADMIN.getValue())));
 		return user;
 	}
 }

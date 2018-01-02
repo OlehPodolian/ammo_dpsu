@@ -3,10 +3,13 @@ package oleg.podolyan.ammodpsu.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 import oleg.podolyan.ammodpsu.domain.JpaAuditable;
 import oleg.podolyan.ammodpsu.domain.user.security.Authority;
+import oleg.podolyan.ammodpsu.domain.user.security.Role;
 import oleg.podolyan.ammodpsu.domain.user.security.UserRole;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
@@ -20,7 +23,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import java.io.Serializable;
@@ -30,7 +35,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users SET enable = false WHERE user_id = ?")
+@SQLDelete(sql = "UPDATE users SET enabled = false WHERE user_id = ?")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @NoArgsConstructor
@@ -67,13 +72,16 @@ public class User extends JpaAuditable implements UserDetails, Serializable {
 	private boolean enabled = true;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@NotAudited
+	@Singular
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 
 //	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 //	@JsonIgnore
 //	private Set<InventoryItem> inventoryItems = new HashSet<>();
+
+	@OneToOne
+	private Soldier soldier;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -111,4 +119,15 @@ public class User extends JpaAuditable implements UserDetails, Serializable {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	public void addRole(Role role){
+		for(UserRole userRole : userRoles) {
+			if(userRole.getRole().getName().equals(role.getName())){
+				return;
+			}
+		}
+		userRoles.add(new UserRole(this, role));
+	}
+
+
 }

@@ -4,6 +4,8 @@ import oleg.podolyan.ammodpsu.domain.user.security.Role;
 import oleg.podolyan.ammodpsu.repository.user.RoleRepository;
 import oleg.podolyan.ammodpsu.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

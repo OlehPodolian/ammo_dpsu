@@ -4,7 +4,7 @@ import oleg.podolyan.ammodpsu.domain.user.User;
 
 public interface UserService {
 
-	String getCurrentUserPrint();
-
 	User save(User user);
+
+	User find(String username);
 }
