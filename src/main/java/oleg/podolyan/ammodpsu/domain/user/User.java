@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import oleg.podolyan.ammodpsu.domain.DBEventAuditor;
+import oleg.podolyan.ammodpsu.domain.JpaAuditable;
 import oleg.podolyan.ammodpsu.domain.user.security.Authority;
 import oleg.podolyan.ammodpsu.domain.user.security.UserRole;
 import org.hibernate.annotations.NaturalId;
@@ -34,7 +34,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @NoArgsConstructor
-public class User extends DBEventAuditor implements UserDetails, Serializable {
+public class User extends JpaAuditable implements UserDetails, Serializable {
 
 	@Transient
 	private static final long serialVersionUID = 1514741810080L;

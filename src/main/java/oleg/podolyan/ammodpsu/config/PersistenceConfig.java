@@ -12,27 +12,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories("oleg.podolyan.ammodpsu.repository")
-@EnableTransactionManagement
-@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class PersistenceConfig {
 
     @Bean
-	AuditorAware<String> auditorProvider() {
-        return new AuditorAwareImpl();
-    }
-
-    private static class AuditorAwareImpl implements AuditorAware<String> {
-
-        @Override
-        public String getCurrentAuditor() {
+	AuditorAware<String> auditorAware() {
+        return () -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
             if (authentication == null || !authentication.isAuthenticated()) {
-                return "not implemented";
+                return "developer";
             }
-
             return ((UserDetails) authentication.getPrincipal()).getUsername();
-        }
+        };
     }
+
 }

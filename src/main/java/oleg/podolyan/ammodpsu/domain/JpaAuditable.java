@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @Audited
 @EntityListeners({AuditingEntityListener.class})
-public abstract class DBEventAuditor implements Serializable {
+public abstract class JpaAuditable implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
@@ -32,11 +32,10 @@ public abstract class DBEventAuditor implements Serializable {
     private String createdBy;
 
     @CreatedDate
-    @Generated(GenerationTime.INSERT)
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     @JsonProperty(value = "createdDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created;
 
     @LastModifiedBy
     @Column(name = "modified_by")
@@ -44,26 +43,17 @@ public abstract class DBEventAuditor implements Serializable {
     private String lastModifiedBy;
 
     @LastModifiedDate
-    @Generated(GenerationTime.ALWAYS)
     @Column(name = "modified_at", columnDefinition = "TIMESTAMP", nullable = false)
     @JsonProperty(value = "lastModifiedDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime lastModified;
 
     public String getCreatedBy() {
-        return this.createdBy;
+        return createdBy;
     }
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public String getLastModifiedBy() {
-        return this.lastModifiedBy;
     }
 
     public LocalDateTime getCreated() {
@@ -74,6 +64,14 @@ public abstract class DBEventAuditor implements Serializable {
         this.created = created;
     }
 
+    public String getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
     public LocalDateTime getLastModified() {
         return lastModified == null ? created : lastModified;
     }
@@ -81,5 +79,4 @@ public abstract class DBEventAuditor implements Serializable {
     public void setLastModified(LocalDateTime lastModified) {
         this.lastModified = lastModified;
     }
-
 }
