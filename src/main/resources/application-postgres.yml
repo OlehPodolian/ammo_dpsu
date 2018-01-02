@@ -8,3 +8,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/ammo_db
     username: admin
     password: admin
+  jpa:
+    hibernate:
+      ddl-auto: create

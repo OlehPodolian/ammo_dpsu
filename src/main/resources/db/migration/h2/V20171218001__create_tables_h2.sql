@@ -20,10 +20,12 @@ CREATE TABLE IF NOT EXISTS soldiers (
   last_name VARCHAR(100) NOT NULL,
   first_name VARCHAR(100) NOT NULL,
   father_name VARCHAR(100),
+  position VARCHAR(255),
+  dep_title VARCHAR(255),
   deleted BOOLEAN DEFAULT FALSE,
-  created_by BIGINT,
+  created_by VARCHAR(100),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  modified_by BIGINT,
+  modified_by VARCHAR(100),
   modified_at TIMESTAMP,
   CONSTRAINT soldiers_username_uq UNIQUE (username),
   CONSTRAINT soldiers_id_pk PRIMARY KEY (soldier_id)
@@ -95,9 +97,9 @@ CREATE TABLE IF NOT EXISTS uniform_items_stored (
   received DATE DEFAULT CURRENT_DATE,
   shipped_at BOOLEAN DEFAULT FALSE,
   details CLOB,
-  created_by BIGINT,
+  created_by VARCHAR(100),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  modified_by BIGINT,
+  modified_by VARCHAR(100),
   modified_at TIMESTAMP,
   ration_item_id BIGINT NOT NULL,
   CONSTRAINT uniform_items_stored_id_pk PRIMARY KEY (item_id),
@@ -111,16 +113,55 @@ CREATE TABLE IF NOT EXISTS uniform_items_issued (
   name VARCHAR(100) NOT NULL,
   price DOUBLE DEFAULT 0,
   size VARCHAR(10) NOT NULL,
-  category VARCHAR(2) DEFAULT '1',
+  category VARCHAR(2) DEFAULT 'I',
   received DATE DEFAULT CURRENT_DATE,
   expires_at DATE,
-  created_by BIGINT,
+  created_by VARCHAR(100),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  modified_by BIGINT,
+  modified_by VARCHAR(100),
   modified_at TIMESTAMP,
   ration_item_id BIGINT NOT NULL,
   CONSTRAINT uniform_items_issued_id_pk PRIMARY KEY (item_id),
   CONSTRAINT uniform_items_issued_name_uq UNIQUE (name),
   CONSTRAINT uniform_items_issued_ration_item_id_fk
   FOREIGN KEY (ration_item_id) REFERENCES ration_items (ration_item_id) ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  order_id BIGINT AUTO_INCREMENT NOT NULL,
+  received BOOLEAN DEFAULT TRUE,
+  order_no VARCHAR(20) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  description VARCHAR(255),
+  order_date DATE,
+  deleted BOOLEAN DEFAULT FALSE,
+  created_by VARCHAR(100),
+  created_at TIMESTAMP DEFAULT current_timestamp,
+  modified_by VARCHAR(100),
+  modified_at TIMESTAMP,
+  CONSTRAINT orders_pk PRIMARY KEY (order_id)
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  order_item_id BIGINT AUTO_INCREMENT NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  quantity INT DEFAULT 0,
+  price DOUBLE DEFAULT 0,
+  deleted BOOLEAN DEFAULT FALSE,
+  order_id BIGINT,
+  CONSTRAINT order_items_pk PRIMARY KEY (order_item_id),
+  CONSTRAINT order_items_fk FOREIGN KEY (order_id) REFERENCES orders (order_id) ON DELETE NO ACTION
+);
+
+CREATE TABLE IF NOT EXISTS departments (
+  department_id BIGINT AUTO_INCREMENT NOT NULL,
+  parent_id BIGINT,
+  title VARCHAR(255) NOT NULL,
+  cheif_name VARCHAR(100) NOT NULL,
+  deleted BOOLEAN DEFAULT FALSE,
+  created_by VARCHAR(100),
+  created_at TIMESTAMP DEFAULT current_timestamp,
+  modified_by VARCHAR(100),
+  modified_at TIMESTAMP,
+  CONSTRAINT departments_id_pk PRIMARY KEY (department_id)
 );

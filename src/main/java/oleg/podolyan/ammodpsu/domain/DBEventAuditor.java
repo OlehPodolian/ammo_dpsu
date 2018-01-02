@@ -3,8 +3,10 @@ package oleg.podolyan.ammodpsu.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
+import org.hibernate.envers.Audited;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -15,30 +17,31 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@Audited
 @EntityListeners({AuditingEntityListener.class})
-@Data
-public abstract class AbstractAuditor implements Serializable {
+public abstract class DBEventAuditor implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @CreatedBy
     @Column(name = "created_by", nullable = false, updatable = false)
     @JsonProperty
-    private Long createdBy;
+    private String createdBy;
 
     @CreatedDate
     @Generated(GenerationTime.INSERT)
     @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "TIMESTAMP")
     @JsonProperty(value = "createdDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now();
 
     @LastModifiedBy
     @Column(name = "modified_by")
     @JsonProperty
-    private Long lastModifiedBy;
+    private String lastModifiedBy;
 
     @LastModifiedDate
     @Generated(GenerationTime.ALWAYS)
@@ -46,5 +49,37 @@ public abstract class AbstractAuditor implements Serializable {
     @JsonProperty(value = "lastModifiedDate")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime lastModified;
+
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void setLastModifiedBy(String lastModifiedBy) {
+        this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public String getLastModifiedBy() {
+        return this.lastModifiedBy;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getLastModified() {
+        return lastModified == null ? created : lastModified;
+    }
+
+    public void setLastModified(LocalDateTime lastModified) {
+        this.lastModified = lastModified;
+    }
 
 }

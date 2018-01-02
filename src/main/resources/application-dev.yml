@@ -11,11 +11,11 @@ spring:
 #      username: root
 #      password: 1515
 
-flyway:
-  locations: db/migration/postgres
-  validate-on-migrate: true
-  out-of-order: true
-  baseline-on-migrate: true
+#flyway:
+#  locations: db/migration/postgres
+#  validate-on-migrate: true
+#  out-of-order: true
+#  baseline-on-migrate: true
 
 
 

@@ -1,18 +1,10 @@
 package oleg.podolyan.ammodpsu.service;
 
-import oleg.podolyan.ammodpsu.domain.security.User;
-
-import java.util.List;
+import oleg.podolyan.ammodpsu.domain.user.User;
 
 public interface UserService {
 
-    User findByUsername(String username);
+	String getCurrentUserPrint();
 
-    User save(User user);
-
-    List<User> findAll();
-
-    void delete(User user);
-
-    void deleteByUsername(String username);
+	User save(User user);
 }

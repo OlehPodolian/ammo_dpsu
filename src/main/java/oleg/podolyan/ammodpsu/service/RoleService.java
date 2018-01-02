@@ -1,12 +1,16 @@
 package oleg.podolyan.ammodpsu.service;
 
-import oleg.podolyan.ammodpsu.domain.security.Role;
+import oleg.podolyan.ammodpsu.domain.user.security.Role;
+
+import java.util.List;
 
 public interface RoleService {
 
-    Role findByName(String roleName);
+	boolean exists(String roleName);
 
-    Role save(Role role);
+	Role save(Role role);
 
-    boolean existsByName(String roleName);
+	Role find(String roleName);
+
+	List<Role> findAll();
 }
