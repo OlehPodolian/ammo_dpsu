@@ -1,6 +1,7 @@
 package oleg.podolyan.ammodpsu.repository.user;
 
 import oleg.podolyan.ammodpsu.AmmoDpsuApplication;
+import oleg.podolyan.ammodpsu.EntityBuilder;
 import oleg.podolyan.ammodpsu.domain.user.User;
 import oleg.podolyan.ammodpsu.domain.user.security.Role;
 import oleg.podolyan.ammodpsu.domain.user.security.RoleType;
@@ -47,7 +48,7 @@ public class UserRepositoryTest {
 	@Test
 	public void whenFindByUsername_thenReturnUsername() {
 		User found = userRepository.findByUsername(user.getUsername());
-		assertEquals(found.getFatherName(), user.getFatherName());
+		assertEquals(found.getUsername(), user.getUsername());
 	}
 
 	@Test
@@ -85,23 +86,7 @@ public class UserRepositoryTest {
 	}
 
 	private User getUser(String username){
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword("pass");
-		user.setLastName("Podolyan");
-		user.setFirstName("Oleg");
-		user.setFatherName("Ivanovich");
-		user.setPhoneNumber("0672989761");
-		user.setPosition("I don't know who I am");
-
-		// manual auditing
-		user.setCreated(LocalDateTime.now());
-		user.setCreatedBy("Developer");
-		user.setLastModified(LocalDateTime.now());
-		user.setLastModifiedBy("Developer");
-
-		user.getUserRoles().add(new UserRole(user, roleRepository.findByName(RoleType.ADMIN.getValue())));
-		return user;
+		return EntityBuilder.buildUser(username);
 	}
 
 	public void addRole(User user, String roleName){

@@ -3,17 +3,16 @@ package oleg.podolyan.ammodpsu.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Singular;
 import oleg.podolyan.ammodpsu.domain.JpaAuditable;
+import oleg.podolyan.ammodpsu.domain.military.Soldier;
 import oleg.podolyan.ammodpsu.domain.user.security.Authority;
 import oleg.podolyan.ammodpsu.domain.user.security.Role;
 import oleg.podolyan.ammodpsu.domain.user.security.UserRole;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
-import org.hibernate.envers.NotAudited;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,11 +21,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Collection;
@@ -35,6 +37,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @SQLDelete(sql = "UPDATE users SET enabled = false WHERE user_id = ?")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
@@ -45,7 +48,13 @@ public class User extends JpaAuditable implements UserDetails, Serializable {
 	private static final long serialVersionUID = 1514741810080L;
 
 	@Id
-	@GeneratedValue
+	@TableGenerator(
+			name = "USER_GEN",
+			table = "ID_Generator",
+			pkColumnName = "user_id",
+			valueColumnName = "sequence",
+			allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "USER_GEN")
 	@Column(name = "user_id", insertable = false, updatable = false)
 	private Long id;
 
@@ -58,15 +67,6 @@ public class User extends JpaAuditable implements UserDetails, Serializable {
 	@Column(name = "phone_number")
 	@JsonProperty
 	private String phoneNumber;
-
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
-	@Column(name = "father_name", nullable = false)
-	private String fatherName;
-
-	private String position;
 
 	@JsonIgnore
 	private boolean enabled = true;

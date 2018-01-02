@@ -50,11 +50,7 @@ public class AmmoDpsuApplication {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword("pass");
-		user.setLastName("Podolyan");
-		user.setFirstName("Oleg");
-		user.setFatherName("Ivanovich");
 		user.setPhoneNumber("0672989761");
-		user.setPosition("I don't know who I am");
 
 //		user.getUserRoles().add(new UserRole(user, roleService.find(RoleType.ADMIN.getValue())));
 		return user;

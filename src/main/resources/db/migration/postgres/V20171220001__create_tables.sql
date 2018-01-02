@@ -37,6 +37,27 @@ CREATE TABLE IF NOT EXISTS user_roles (
   CONSTRAINT user_roles_role_id_fk FOREIGN KEY (role_id) REFERENCES roles (role_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS soldiers (
+  soldier_id BIGSERIAL NOT NULL,
+  user_id BIGINT NOT NULL,
+  rank VARCHAR(100),
+  department_id BIGINT,
+  ration_id BIGINT,
+  head_size VARCHAR(10) NOT NULL DEFAULT 56,
+  foot_size VARCHAR(10) NOT NULL DEFAULT 42,
+  body_size VARCHAR(10) NOT NULL DEFAULT 52-5,
+  collar_size VARCHAR(10) NOT NULL DEFAULT 41,
+  -- auditing part ...
+--   created_by VARCHAR(100) NOT NULL,
+--   created_at TIMESTAMP DEFAULT current_timestamp NOT NULL,
+--   modified_by VARCHAR(100),
+--   modified_at TIMESTAMP,
+  -- auditing part .
+  CONSTRAINT soldiers_id_pk PRIMARY KEY (user_id),
+  CONSTRAINT soldiers_user_id_fk FOREIGN KEY (user_id) REFERENCES users (user_id) ON DELETE CASCADE,
+  CONSTRAINT soldiers_department_id_fk FOREIGN KEY (department_id) REFERENCES departments (department_id) ON DELETE SET NULL,
+  CONSTRAINT soldiers_ration_id_fk FOREIGN KEY (ration_id) REFERENCES rations (ration_id) ON DELETE SET NULL
+);
 
 
 
