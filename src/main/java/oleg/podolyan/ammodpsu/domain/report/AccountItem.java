@@ -3,12 +3,10 @@ package oleg.podolyan.ammodpsu.domain.report;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import oleg.podolyan.ammodpsu.domain.JpaAuditable;
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -58,4 +56,11 @@ public class AccountItem extends JpaAuditable{
 	private Long orderItemId;
 
 	private boolean deleted;
+
+	public AccountItem(String name, double price, LocalDate received) {
+		this.name = name;
+		this.price = new BigDecimal(price);
+		this.orderItemId = 2L;
+		this.received = received;
+	}
 }

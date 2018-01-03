@@ -3,14 +3,11 @@ package oleg.podolyan.ammodpsu.domain.warehouse;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.Singular;
 import oleg.podolyan.ammodpsu.domain.report.Account;
 import oleg.podolyan.ammodpsu.domain.report.AccountWarehouse;
 import oleg.podolyan.ammodpsu.domain.user.User;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
 
@@ -63,4 +60,5 @@ public class Warehouse {
 	public Warehouse(String name) {
 		this.name = name;
 	}
+
 }

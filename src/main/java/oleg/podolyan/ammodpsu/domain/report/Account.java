@@ -1,6 +1,7 @@
 package oleg.podolyan.ammodpsu.domain.report;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
@@ -26,6 +27,7 @@ import java.util.Set;
 )
 @SQLDelete(sql = "UPDATE accounts SET deleted = true WHERE account_id = ?")
 @Data
+@EqualsAndHashCode(exclude = "accountItems")
 @NoArgsConstructor
 public class Account {
 
@@ -46,5 +48,10 @@ public class Account {
 
 	public Account(String name) {
 		this.name = name;
+	}
+
+	public void addAccountItem(AccountItem accountItem){
+		accountItem.setAccount(this);
+		accountItems.add(accountItem);
 	}
 }
