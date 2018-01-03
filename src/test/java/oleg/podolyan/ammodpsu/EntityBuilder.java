@@ -1,5 +1,8 @@
 package oleg.podolyan.ammodpsu;
 
+import oleg.podolyan.ammodpsu.domain.lex.ClothesType;
+import oleg.podolyan.ammodpsu.domain.lex.Ration;
+import oleg.podolyan.ammodpsu.domain.lex.RationItem;
 import oleg.podolyan.ammodpsu.domain.military.Employee;
 import oleg.podolyan.ammodpsu.domain.military.Soldier;
 import oleg.podolyan.ammodpsu.domain.user.PersonalInfo;
@@ -7,6 +10,7 @@ import oleg.podolyan.ammodpsu.domain.user.User;
 import oleg.podolyan.ammodpsu.domain.user.security.RoleType;
 import oleg.podolyan.ammodpsu.domain.user.security.UserRole;
 import oleg.podolyan.ammodpsu.domain.warehouse.SizeType;
+import oleg.podolyan.ammodpsu.domain.warehouse.Warehouse;
 import oleg.podolyan.ammodpsu.repository.user.UserRepository;
 
 import java.time.LocalDateTime;
@@ -64,5 +68,29 @@ public class EntityBuilder {
 
 		return employee;
 	}
+
+	public static Ration buildRation(String name, String details){
+		Ration ration = new Ration();
+		ration.setName(name);
+		ration.setDetails(details);
+		return ration;
+	}
+
+	public static RationItem buildRationItem(ClothesType type, String name, String details){
+		RationItem rationItem = new RationItem();
+		rationItem.setName(name);
+		rationItem.setDetails(details);
+		rationItem.setClothesType(type);
+		rationItem.setQuantity(3);
+		rationItem.setTerm(1);
+		return rationItem;
+	}
+
+	public static Warehouse buildWarehouse(String name){
+		Warehouse warehouse = new Warehouse(name);
+
+		return warehouse;
+	}
+
 
 }

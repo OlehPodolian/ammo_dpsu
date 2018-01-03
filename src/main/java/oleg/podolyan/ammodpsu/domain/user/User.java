@@ -76,10 +76,6 @@ public class User extends JpaAuditable implements UserDetails, Serializable {
 	@JsonIgnore
 	private Set<UserRole> userRoles = new HashSet<>();
 
-//	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//	@JsonIgnore
-//	private Set<InventoryItem> inventoryItems = new HashSet<>();
-
 	@OneToOne
 	private Soldier soldier;
 
