@@ -2,11 +2,15 @@ package oleg.podolyan.ammodpsu.domain.warehouse;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.Singular;
 import oleg.podolyan.ammodpsu.domain.report.Account;
 import oleg.podolyan.ammodpsu.domain.report.AccountWarehouse;
 import oleg.podolyan.ammodpsu.domain.user.User;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.SQLDelete;
 
@@ -16,6 +20,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
@@ -25,6 +31,7 @@ import java.util.Set;
 @Table(name = "warehouses")
 @SQLDelete(sql = "UPDATE warehouses SET deleted = true WHERE warehouse_id = ?")
 @Data
+@EqualsAndHashCode(exclude = {"managers", "accountWarehouses"})
 @NoArgsConstructor
 public class Warehouse {
 
@@ -40,7 +47,12 @@ public class Warehouse {
 
 	private boolean deleted;
 
-	@OneToMany(mappedBy = "warehouse", fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "warehouse_managers",
+			joinColumns = @JoinColumn(name = "warehouse_id", referencedColumnName = "warehouse_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	)
 	private Set<User> managers = new HashSet<>();
 
 	@OneToMany(mappedBy = "warehouse", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
